@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<link rel="shortcut icon" href="data:image/x-icon;">
+<title>Visual</title>
+<style>
+    html,
+    body {
+        margin: 0px;
+        padding: 0px;
+    }
+    .observablehq {
+        padding: 2px;
+    }
+
+    .observablehq--inspect {
+        display: none;
+    }
+</style>
+
+<body>
+    <div id="container"></div>
+    <script>
+        var params = new URL(location).searchParams;
+        var string = params.get("notebook");
+        var popup = params.has("popup");
+        var newScript = document.createElement("script");
+        newScript.setAttribute('type', 'module')
+        var inlineScript = document.createTextNode(`
+        import { Runtime, Inspector } from "https://cdn.jsdelivr.net/npm/@observablehq/runtime@4/dist/runtime.js";
+        import define from "https://api.observablehq.com/${string}.js?v=3";
+        ${popup ? '(new Runtime).module(define, Inspector.into(document.body));' : '(new Runtime).module(define, name => (name === "embed") && Inspector.into("#container")());'}
+        `);
+        newScript.appendChild(inlineScript);
+        document.body.appendChild(newScript);
+        if(!popup){
+            document.body.style.overflow = "hidden"
+        }
+    </script>
