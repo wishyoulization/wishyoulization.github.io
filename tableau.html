@@ -1,22 +1,11 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 <link rel="shortcut icon" href="data:image/x-icon;">
-<title>Visual</title>
 <style>
-    html,
-    body {
-        margin: 0px;
-        padding: 0px;
-    }
-    .observablehq {
-        padding: 2px;
-    }
-
-    .observablehq--inspect {
-        display: none;
-    }
+    html, body { margin: 0px; padding: 0px;}
+    .observablehq { padding: 0px;}
+    .observablehq--inspect {display: none;}
 </style>
-
 <body>
     <div id="container"></div>
     <script>
@@ -32,7 +21,5 @@
         `);
         newScript.appendChild(inlineScript);
         document.body.appendChild(newScript);
-        if(!popup){
-            document.body.style.overflow = "hidden"
-        }
+        if(!popup){ document.body.style.overflow = "hidden"}
     </script>
