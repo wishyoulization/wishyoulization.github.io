@@ -28,7 +28,7 @@
         var inlineScript = document.createTextNode(`
         import { Runtime, Inspector } from "https://cdn.jsdelivr.net/npm/@observablehq/runtime@4/dist/runtime.js";
         import define from "https://api.observablehq.com/${string}.js?v=3";
-        ${popup ? '(new Runtime).module(define, Inspector.into(document.body));' : '(new Runtime).module(define, name => (name === "embed") && Inspector.into("#container")());'}
+        ${popup ? '(new Runtime).module(define, Inspector.into(document.body));' : '(new Runtime).module(define, name => (name === "viewof embed") && Inspector.into("#container")());'}
         `);
         newScript.appendChild(inlineScript);
         document.body.appendChild(newScript);
