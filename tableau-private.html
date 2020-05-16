@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<link rel="shortcut icon" href="data:image/x-icon;">
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-166061874-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-166061874-1');
+</script>
+<style>
+    html, body { margin: 0px; padding: 0px;font-family: 'Source Sans Pro', sans-serif;}
+    .observablehq { padding: 0px;}
+    .observablehq--inspect {display: none;}
+</style>
+<body>
+    <div id="container"></div>
+    <script>
+        var params = new URL(location).searchParams;
+        var string = params.get("notebook");
+        var api_key = params.get("api_key");
+        var popup = params.has("popup");
+        var newScript = document.createElement("script");
+        newScript.setAttribute('type', 'module')
+        var inlineScript = document.createTextNode(`
+        import { Runtime, Inspector } from "https://cdn.jsdelivr.net/npm/@observablehq/runtime@4/dist/runtime.js";
+        import define from "https://api.observablehq.com/${string}.js?v=3&api_key=${api_key}";
+        ${popup ? '(new Runtime).module(define, Inspector.into(document.body));' : '(new Runtime).module(define, name => (name === "viewof embed") && Inspector.into("#container")());'}
+        `);
+        newScript.appendChild(inlineScript);
+        document.body.appendChild(newScript);
+        if(!popup){ document.body.style.overflow = "hidden"}else{document.body.style.padding = "8px"}
+    </script>
